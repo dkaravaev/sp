@@ -72,15 +72,13 @@ def compress_sklearn(input_image, k):
     return output_image.reshape(input_image.shape).astype(np.uint8)
 
 if __name__ == '__main__':
-    image_names = ['lena.jpg', 'grain.jpg', 'peppers.jpg']
-    clusters_nums = [9, 7, 5]
+    image_name = 'policemen.jpg'
 
-    for i in xrange(len(image_names)):
-        print('Compressing: ' + image_names[i])
-        input_image = np.asarray(Image.open(image_names[i]))
+    print('Compressing: ' + image_name)
+    input_image = np.asarray(Image.open(image_name))
 
-        comp_original = compress_original(input_image=input_image, k=clusters_nums[i], n=4, reuse=1)
-        comp_sklearn = compress_sklearn(input_image=input_image, k=clusters_nums[i])
+    comp_db = compress_original(input_image, 7, 10, 1)
+    comp_ch = compress_original(input_image, 8, 10, 1)
 
-        Image.fromarray(comp_original).save('compressed_' + image_names[i])
-        Image.fromarray(comp_sklearn).save('sk_compressed_' + image_names[i])
+    Image.fromarray(comp_db).save('db_compressed_' + image_name)
+    Image.fromarray(comp_ch).save('ch_compressed_' + image_name)
