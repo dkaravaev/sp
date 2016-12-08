@@ -49,7 +49,7 @@ class InternalCriterion:
         return alpha * (Sb / Sw) 
 
 
-class PairwiseCreriterion:
+class PairwiseCriterion:
     def  __init__(self, X, clusters_1, centroids_1, clusters_2, centroids_2):
         self.M = np.zeros((centroids_1.shape[0], centroids_2.shape[0]))
         self.elements_1 = np.zeros(centroids_1.shape[0])
@@ -108,6 +108,8 @@ def image_criterions(filename, cluster_limit=10):
     plt.grid(True)
     plt.savefig("db_criterion.png")
 
+    return np.argmin(chs) + 2, np.argmin(dbs) + 2
+
 def geom_criterions(filename, cluster_limit=10):
     file = open(filename, 'r')
 
@@ -141,7 +143,7 @@ def geom_criterions(filename, cluster_limit=10):
         kms = Kmeans(k, 10, 1)
         clusters, centroids, functional = kms.fit(points)
         
-        cr = PairwiseCreriterion(points, gt_clusters, gt_centroids, clusters, centroids)
+        cr = PairwiseCriterion(points, gt_clusters, gt_centroids, clusters, centroids)
         rands.append(cr.rand())
         fms.append(cr.fowlkes_mallows())
 
@@ -158,6 +160,8 @@ def geom_criterions(filename, cluster_limit=10):
     plt.ylabel('Rand Criterion')
     plt.grid(True)
     plt.savefig("rand_criterion.png")
+
+    return np.argmax(fms) + 2, np.argmax(rands) + 2
 
 
 if __name__ == '__main__':
