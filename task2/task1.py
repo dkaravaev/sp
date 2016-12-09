@@ -77,7 +77,7 @@ if __name__ == '__main__':
     print('Compressing: ' + image_name)
     input_image = np.asarray(Image.open(image_name))
 
-    comp_db = compress_original(input_image, 7, 10, 1)
+    comp_db = compress_original(input_image, 5, 10, 1)
     comp_ch = compress_original(input_image, 8, 10, 1)
 
     Image.fromarray(comp_db).save('db_compressed_' + image_name)
