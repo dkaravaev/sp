@@ -39,7 +39,7 @@ class InternalCriterion:
         mean = np.mean(self.X)
         Sb = 0
         for i in xrange(self.centroids.shape[0]):
-            Sb += self.elements[i] * np.sum((self.centroids[self.clusters[i]] - self.X[i]) ** 2)
+            Sb += self.elements[i] * np.sum((self.centroids[self.clusters[i]] - mean) ** 2)
 
         Sw = 0
         for i in xrange(self.X.shape[0]):
@@ -108,7 +108,7 @@ def image_criterions(filename, cluster_limit=10):
     plt.grid(True)
     plt.savefig("db_criterion.png")
 
-    return np.argmin(chs) + 2, np.argmin(dbs) + 2
+    return np.argmax(chs) + 2, np.argmin(dbs) + 2
 
 def geom_criterions(filename, cluster_limit=10):
     file = open(filename, 'r')
@@ -169,6 +169,6 @@ if __name__ == '__main__':
         print('Error: Please, type filename and limit of clusters as command line arguments.')
         sys.exit(0)
 
-    image_criterions(sys.argv[1], int(sys.argv[2]))
+    print(image_criterions(sys.argv[1], int(sys.argv[2])))
 
     
