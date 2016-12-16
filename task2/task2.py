@@ -77,6 +77,11 @@ class PairwiseCriterion:
     def fowlkes_mallows(self):
         return self.TP / np.sqrt((self.TP + self.FN) * (self.TP + self.FP))
 
+def find_delta(chs):
+    deltas = [((chs[i + 1] - chs[i]) - (chs[i] - chs[i - 1])) for i in xrange(1, len(chs) - 1)]
+    return np.argmin(deltas) + 3
+
+
 def image_criterions(filename, cluster_limit=10):
     print('Compressing: ' + filename)
     input_image = np.asarray(Image.open(filename))
@@ -107,8 +112,6 @@ def image_criterions(filename, cluster_limit=10):
     plt.ylabel('Davies Bouldin Criterion')
     plt.grid(True)
     plt.savefig("db_criterion.png")
-
-    return np.argmax(chs) + 2, np.argmin(dbs) + 2
 
 def geom_criterions(filename, cluster_limit=10):
     file = open(filename, 'r')
@@ -160,9 +163,6 @@ def geom_criterions(filename, cluster_limit=10):
     plt.ylabel('Rand Criterion')
     plt.grid(True)
     plt.savefig("rand_criterion.png")
-
-    return np.argmax(fms) + 2, np.argmax(rands) + 2
-
 
 if __name__ == '__main__':
     if len(sys.argv) < 3:
